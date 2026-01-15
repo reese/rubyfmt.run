@@ -16,12 +16,12 @@ end
 
 class Greeter
 def initialize(name:,excited:false) @name=name;@excited=excited end
-def greet()= "Hello, #{@name}#{'!' if @excited}"
-def with_excitement() = Greeter.new(name:@name,excited: true)
+def greet()= "Hello, #@name#{?! if @excited}"
+def with_excitement() = begin;@excited=true;self; end
 end
 
 rubyfmt( 20 )
-puts Greeter.new(name: "world").with_excitement.greet
+puts Greeter.new(name: 'world').with_excitement.greet
 `;
 
 function getTheme() {
