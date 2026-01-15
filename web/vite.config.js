@@ -15,6 +15,10 @@ export default defineConfig({
           src: "wasm/rubyfmt.wasm",
           dest: "wasm",
         },
+        {
+          src: "static/*",
+          dest: "static",
+        },
       ],
     }),
   ],

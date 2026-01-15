@@ -16,7 +16,7 @@ end
 
 class Greeter
 def initialize(name:,excited:false) @name=name;@excited=excited end
-def greet()= "Hello, #{@name}#{"!" if @excited}"
+def greet()= "Hello, #{@name}#{'!' if @excited}"
 def with_excitement() = Greeter.new(name:@name,excited: true)
 end
 

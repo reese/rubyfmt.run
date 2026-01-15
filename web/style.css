@@ -48,6 +48,13 @@ header {
 header h1 {
   margin: 0;
   font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ruby-logo {
+  flex-shrink: 0;
 }
 
 .header-actions {
