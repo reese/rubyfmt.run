@@ -60,11 +60,12 @@ jobs:
       - name: Build WASM
         run: |
           EMSCRIPTEN_SYSROOT="$EMSDK/upstream/emscripten/cache/sysroot"
-          export CC_wasm32_unknown_emscripten="emcc"
-          export AR_wasm32_unknown_emscripten="emar"
-          export CFLAGS_wasm32_unknown_emscripten="--sysroot=$EMSCRIPTEN_SYSROOT"
-          export BINDGEN_EXTRA_CLANG_ARGS_wasm32_unknown_emscripten="--sysroot=$EMSCRIPTEN_SYSROOT -fvisibility=default"
-          cargo build --target wasm32-unknown-emscripten --release
+          env \
+            CC_wasm32_unknown_emscripten="emcc" \
+            AR_wasm32_unknown_emscripten="emar" \
+            CFLAGS_wasm32_unknown_emscripten="--sysroot=$EMSCRIPTEN_SYSROOT" \
+            "BINDGEN_EXTRA_CLANG_ARGS_wasm32-unknown-emscripten=--sysroot=$EMSCRIPTEN_SYSROOT -fvisibility=default" \
+            cargo build --target wasm32-unknown-emscripten --release
 
       - name: Link with Emscripten
         run: |
