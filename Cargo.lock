@@ -287,7 +287,7 @@ dependencies = [
 [[package]]
 name = "rubyfmt"
 version = "0.11.0-pre"
-source = "git+https://github.com/fables-tales/rubyfmt?branch=reese-ruby-embed-removal#251c3cdbce8431bea3cd50b6d2e15c620bf75256"
+source = "git+https://github.com/fables-tales/rubyfmt?branch=reese-ruby-embed-removal#59631b61b8bfbdc81f8d84251f22d9a3c1e28bae"
 dependencies = [
  "fancy-regex",
  "log",
