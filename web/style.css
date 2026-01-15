@@ -56,8 +56,19 @@ header h1 {
   gap: 1rem;
 }
 
-header a {
-  color: var(--accent);
+.github-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.github-link:hover {
+  background: var(--bg-secondary);
 }
 
 #theme-toggle {
