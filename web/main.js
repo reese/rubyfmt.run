@@ -2,11 +2,13 @@ import createRubyfmtModule from "./wasm/rubyfmt.js";
 import { EditorView, basicSetup } from "codemirror";
 import { StreamLanguage } from "@codemirror/language";
 import { ruby } from "@codemirror/legacy-modes/mode/ruby";
+import { oneDark } from "@codemirror/theme-one-dark";
 
 let inputEditor, outputEditor;
 let debounceTimer;
 let Module = null;
 let formatRuby = null;
+let currentTheme = null;
 
 const DEFAULT_CODE = `class Foo
 def bar(x,y,z)
@@ -19,8 +21,80 @@ end
 end
 `;
 
+function getTheme() {
+  const saved = localStorage.getItem("theme");
+  if (saved) return saved;
+  return "dark";
+}
+
+function setTheme(theme) {
+  currentTheme = theme;
+  document.documentElement.setAttribute("data-theme", theme);
+  localStorage.setItem("theme", theme);
+}
+
+function getEditorExtensions(editable = true) {
+  const extensions = [
+    basicSetup,
+    StreamLanguage.define(ruby),
+  ];
+
+  if (currentTheme === "dark") {
+    extensions.push(oneDark);
+  }
+
+  if (!editable) {
+    extensions.push(EditorView.editable.of(false));
+  }
+
+  return extensions;
+}
+
+function recreateEditors() {
+  const inputCode = inputEditor ? inputEditor.state.doc.toString() : getInitialCode();
+  const outputCode = outputEditor ? outputEditor.state.doc.toString() : "";
+
+  if (inputEditor) {
+    inputEditor.destroy();
+  }
+  if (outputEditor) {
+    outputEditor.destroy();
+  }
+
+  inputEditor = new EditorView({
+    doc: inputCode,
+    extensions: [
+      ...getEditorExtensions(true),
+      EditorView.updateListener.of((update) => {
+        if (update.docChanged) {
+          scheduleFormat();
+        }
+      }),
+    ],
+    parent: document.getElementById("input-editor"),
+  });
+
+  outputEditor = new EditorView({
+    doc: outputCode,
+    extensions: getEditorExtensions(false),
+    parent: document.getElementById("output-editor"),
+  });
+}
+
+function toggleTheme() {
+  const newTheme = currentTheme === "dark" ? "light" : "dark";
+  setTheme(newTheme);
+  recreateEditors();
+}
+
 async function main() {
   const loadingEl = document.getElementById("loading");
+
+  // Initialize theme
+  setTheme(getTheme());
+
+  // Set up theme toggle
+  document.getElementById("theme-toggle").addEventListener("click", toggleTheme);
 
   try {
     // Initialize Emscripten module
@@ -53,29 +127,7 @@ async function main() {
     };
 
     // Set up editors
-    inputEditor = new EditorView({
-      doc: getInitialCode(),
-      extensions: [
-        basicSetup,
-        StreamLanguage.define(ruby),
-        EditorView.updateListener.of((update) => {
-          if (update.docChanged) {
-            scheduleFormat();
-          }
-        }),
-      ],
-      parent: document.getElementById("input-editor"),
-    });
-
-    outputEditor = new EditorView({
-      doc: "",
-      extensions: [
-        basicSetup,
-        StreamLanguage.define(ruby),
-        EditorView.editable.of(false),
-      ],
-      parent: document.getElementById("output-editor"),
-    });
+    recreateEditors();
 
     // Hide loading state
     loadingEl.classList.add("hidden");
