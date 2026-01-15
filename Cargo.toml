@@ -1,0 +1,14 @@
+[package]
+name = "rubyfmt-wasm"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+crate-type = ["staticlib"]
+
+[dependencies]
+rubyfmt = { git = "https://github.com/fables-tales/rubyfmt", branch = "reese-ruby-embed-removal", default-features = false }
+
+[profile.release]
+opt-level = 'z'
+lto = true
