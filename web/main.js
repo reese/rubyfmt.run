@@ -117,7 +117,7 @@ async function main() {
       Module._free(sourcePtr);
 
       if (resultPtr === 0) {
-        throw new Error("Formatting failed");
+        throw new Error("Encountered a syntax error");
       }
 
       // Convert result to JS string
