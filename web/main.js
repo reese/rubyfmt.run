@@ -10,15 +10,18 @@ let Module = null;
 let formatRuby = null;
 let currentTheme = null;
 
-const DEFAULT_CODE = `class Foo
-def bar(x,y,z)
-if x
-y
-else
-z
+const DEFAULT_CODE = `def rubyfmt(n)
+(1..n).each{|i| x=case when i%15==0 then "rubyfmt" when i%3==0 then "ruby" when i%5==0 then "fmt" else i end;puts x}
 end
+
+class Greeter
+def initialize(name:,excited:false) @name=name;@excited=excited end
+def greet()= "Hello, #{@name}#{"!" if @excited}"
+def with_excitement() = Greeter.new(name:@name,excited: true)
 end
-end
+
+rubyfmt( 20 )
+puts Greeter.new(name: "world").with_excitement.greet
 `;
 
 function getTheme() {
