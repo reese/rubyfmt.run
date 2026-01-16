@@ -7,7 +7,7 @@ edition = "2024"
 crate-type = ["staticlib"]
 
 [dependencies]
-rubyfmt = { git = "https://github.com/fables-tales/rubyfmt", branch = "reese-ruby-embed-removal", default-features = false }
+rubyfmt = { git = "https://github.com/fables-tales/rubyfmt", default-features = false }
 
 [profile.release]
 opt-level = 'z'
