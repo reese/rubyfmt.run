@@ -1,0 +1,37 @@
+name: Update rubyfmt dependency
+
+on:
+  schedule:
+    - cron: "0 12 * * *" # Once a day at noon UTC
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Get latest rubyfmt commit
+        id: rubyfmt
+        run: |
+          LATEST=$(git ls-remote https://github.com/fables-tales/rubyfmt refs/heads/trunk | cut -f1)
+          echo "commit=$LATEST" >> $GITHUB_OUTPUT
+          echo "short_commit=${LATEST:0:7}" >> $GITHUB_OUTPUT
+
+      - name: Check current commit
+        id: current
+        run: |
+          CURRENT=$(grep -oP 'rev = "\K[a-f0-9]+' Cargo.toml || echo "none")
+          echo "commit=$CURRENT" >> $GITHUB_OUTPUT
+
+      - name: Update Cargo.toml and commit
+        if: steps.rubyfmt.outputs.commit != steps.current.outputs.commit
+        run: |
+          sed -i 's|rubyfmt = { git = "https://github.com/fables-tales/rubyfmt".*}|rubyfmt = { git = "https://github.com/fables-tales/rubyfmt", rev = "${{ steps.rubyfmt.outputs.commit }}", default-features = false }|' Cargo.toml
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add Cargo.toml
+          git commit -m "Update rubyfmt to ${{ steps.rubyfmt.outputs.short_commit }}"
+          git push
