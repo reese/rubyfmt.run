@@ -19,6 +19,10 @@ export default defineConfig({
           src: "static/*",
           dest: "static",
         },
+        {
+          src: "version.json",
+          dest: ".",
+        },
       ],
     }),
   ],

@@ -90,6 +90,19 @@ function toggleTheme() {
   recreateEditors();
 }
 
+async function loadVersionInfo() {
+  try {
+    const response = await fetch("version.json");
+    const version = await response.json();
+    const versionEl = document.getElementById("version-info");
+    const releaseUrl = `https://github.com/fables-tales/rubyfmt/releases/tag/v${version.version}`;
+    const commitUrl = `https://github.com/fables-tales/rubyfmt/commit/${version.commit}`;
+    versionEl.innerHTML = `<a href="${releaseUrl}" target="_blank" rel="noopener">v${version.version}</a> @ <a href="${commitUrl}" target="_blank" rel="noopener">${version.shortCommit}</a>`;
+  } catch (e) {
+    console.warn("Could not load version info:", e);
+  }
+}
+
 async function main() {
   const loadingEl = document.getElementById("loading");
 
@@ -98,6 +111,9 @@ async function main() {
 
   // Set up theme toggle
   document.getElementById("theme-toggle").addEventListener("click", toggleTheme);
+
+  // Load version info
+  loadVersionInfo();
 
   try {
     // Initialize Emscripten module

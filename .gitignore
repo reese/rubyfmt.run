@@ -10,6 +10,7 @@ node_modules
 # Build output
 web/dist
 web/wasm
+web/version.json
 
 # IDE
 .idea

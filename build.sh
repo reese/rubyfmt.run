@@ -54,6 +54,13 @@ emcc \
     -s ENVIRONMENT='web' \
     -O3
 
+echo "Extracting rubyfmt version info..."
+RUBYFMT_VERSION=$(grep -A2 'name = "rubyfmt"' Cargo.lock | grep 'version' | sed 's/.*"\(.*\)"/\1/')
+RUBYFMT_COMMIT=$(grep -A2 'name = "rubyfmt"' Cargo.lock | grep 'source' | sed 's/.*#\([a-f0-9]*\)"/\1/')
+RUBYFMT_SHORT_COMMIT=${RUBYFMT_COMMIT:0:7}
+echo "{\"version\": \"$RUBYFMT_VERSION\", \"commit\": \"$RUBYFMT_COMMIT\", \"shortCommit\": \"$RUBYFMT_SHORT_COMMIT\"}" > web/version.json
+echo "rubyfmt version: $RUBYFMT_VERSION @ $RUBYFMT_SHORT_COMMIT"
+
 echo "Installing web dependencies..."
 cd web
 npm install
