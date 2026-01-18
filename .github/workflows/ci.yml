@@ -83,6 +83,13 @@ jobs:
             -s ENVIRONMENT='web' \
             -O3
 
+      - name: Generate version info
+        run: |
+          RUBYFMT_VERSION=$(grep -A2 'name = "rubyfmt"' Cargo.lock | grep 'version' | sed 's/.*"\(.*\)"/\1/')
+          RUBYFMT_COMMIT=$(grep -A2 'name = "rubyfmt"' Cargo.lock | grep 'source' | sed 's/.*#\([a-f0-9]*\)"/\1/')
+          RUBYFMT_SHORT_COMMIT=${RUBYFMT_COMMIT:0:7}
+          echo "{\"version\": \"$RUBYFMT_VERSION\", \"commit\": \"$RUBYFMT_COMMIT\", \"shortCommit\": \"$RUBYFMT_SHORT_COMMIT\"}" > web/version.json
+
       - name: Build web assets
         working-directory: web
         run: |
