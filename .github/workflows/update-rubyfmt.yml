@@ -32,6 +32,6 @@ jobs:
           sed -i 's|rubyfmt = { git = "https://github.com/fables-tales/rubyfmt".*}|rubyfmt = { git = "https://github.com/fables-tales/rubyfmt", rev = "${{ steps.rubyfmt.outputs.commit }}", default-features = false }|' Cargo.toml
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add Cargo.toml
+          git add Cargo.toml Cargo.lock
           git commit -m "Update rubyfmt to ${{ steps.rubyfmt.outputs.short_commit }}"
           git push
