@@ -9,6 +9,7 @@ let debounceTimer;
 let Module = null;
 let formatRuby = null;
 let currentTheme = null;
+let versionInfo = null;
 
 const DEFAULT_CODE = `def rubyfmt(n)
 (1..n).each{|i| x=case when i%15==0 then "rubyfmt" when i%3==0 then "ruby" when i%5==0 then "fmt" else i end;puts x}
@@ -90,14 +91,56 @@ function toggleTheme() {
   recreateEditors();
 }
 
+function handleFileIssue(ev) {
+  ev.preventDefault();
+
+  const inputCode = inputEditor ? inputEditor.state.doc.toString() : "";
+  const outputCode = outputEditor ? outputEditor.state.doc.toString() : "";
+  const errorDisplay = document.getElementById("error-display");
+  const hasError = !errorDisplay.classList.contains("hidden");
+  const errorText = hasError ? errorDisplay.textContent : "";
+
+  const commitLine = versionInfo
+    ? `**Commit:** [\`${versionInfo.shortCommit}\`](https://github.com/fables-tales/rubyfmt/commit/${versionInfo.commit})\n\n`
+    : "";
+
+  const template = `${commitLine}#### Input
+
+[→ View on rubyfmt.run](${window.location.href})
+
+\`\`\`ruby
+${inputCode}
+\`\`\`
+
+#### Output
+
+\`\`\`ruby
+${outputCode}
+\`\`\`
+${hasError ? `\n#### Error\n\n\`\`\`\n${errorText}\n\`\`\`` : ""}
+
+#### Expected behavior
+
+<!-- TODO: Briefly explain what the expected behavior should be on this example. -->
+
+---
+
+<!-- TODO: If there is any additional information you'd like to include, include it here. -->
+`;
+
+  const body = encodeURIComponent(template);
+  const issueUrl = `https://github.com/fables-tales/rubyfmt/issues/new?body=${body}`;
+  window.open(issueUrl, "_blank");
+}
+
 async function loadVersionInfo() {
   try {
     const response = await fetch("version.json");
-    const version = await response.json();
+    versionInfo = await response.json();
     const versionEl = document.getElementById("version-info");
-    const releaseUrl = `https://github.com/fables-tales/rubyfmt/releases/tag/v${version.version}`;
-    const commitUrl = `https://github.com/fables-tales/rubyfmt/commit/${version.commit}`;
-    versionEl.innerHTML = `<a href="${releaseUrl}" target="_blank" rel="noopener">v${version.version}</a> @ <a href="${commitUrl}" target="_blank" rel="noopener">${version.shortCommit}</a>`;
+    const releaseUrl = `https://github.com/fables-tales/rubyfmt/releases/tag/v${versionInfo.version}`;
+    const commitUrl = `https://github.com/fables-tales/rubyfmt/commit/${versionInfo.commit}`;
+    versionEl.innerHTML = `<a href="${releaseUrl}" target="_blank" rel="noopener">v${versionInfo.version}</a> @ <a href="${commitUrl}" target="_blank" rel="noopener">${versionInfo.shortCommit}</a>`;
   } catch (e) {
     console.warn("Could not load version info:", e);
   }
@@ -111,6 +154,26 @@ async function main() {
 
   // Set up theme toggle
   document.getElementById("theme-toggle").addEventListener("click", toggleTheme);
+
+  // Set up file issue button
+  document.getElementById("file-issue").addEventListener("click", handleFileIssue);
+
+  // Set up GitHub dropdown
+  const githubDropdown = document.querySelector(".github-dropdown");
+  const dropdownToggle = document.querySelector(".github-dropdown-toggle");
+
+  dropdownToggle.addEventListener("click", () => {
+    const isOpen = githubDropdown.classList.toggle("open");
+    dropdownToggle.setAttribute("aria-expanded", isOpen);
+  });
+
+  // Close dropdown when clicking outside
+  document.addEventListener("click", (ev) => {
+    if (!githubDropdown.contains(ev.target)) {
+      githubDropdown.classList.remove("open");
+      dropdownToggle.setAttribute("aria-expanded", "false");
+    }
+  });
 
   // Load version info
   loadVersionInfo();
