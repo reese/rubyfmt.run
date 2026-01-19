@@ -83,18 +83,75 @@ header h1 {
   gap: 1rem;
 }
 
-.github-link {
+/* GitHub dropdown */
+.github-dropdown {
+  position: relative;
+}
+
+.github-dropdown-toggle {
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 0.4rem;
   padding: 0.4rem 0.6rem;
   border: 1px solid var(--border);
   border-radius: 4px;
+  background: transparent;
   color: var(--text-primary);
-  text-decoration: none;
+  font-size: 0.875rem;
+  cursor: pointer;
+  font-family: inherit;
 }
 
-.github-link:hover {
+.github-dropdown-toggle:hover {
+  background: var(--bg-secondary);
+}
+
+.dropdown-arrow {
+  transition: transform 0.2s ease;
+}
+
+.github-dropdown.open .dropdown-arrow {
+  transform: rotate(180deg);
+}
+
+.github-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  min-width: 160px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.25rem 0;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+  z-index: 100;
+}
+
+.github-dropdown.open .github-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  color: var(--text-primary);
+  text-decoration: none;
+  font-size: 0.875rem;
+  cursor: pointer;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+}
+
+.dropdown-item:hover {
   background: var(--bg-secondary);
 }
 
