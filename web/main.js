@@ -129,7 +129,7 @@ ${hasError ? `\n#### Error\n\n\`\`\`\n${errorText}\n\`\`\`` : ""}
 `;
 
   const body = encodeURIComponent(template);
-  const issueUrl = `https://github.com/fables-tales/rubyfmt/issues/new?body=${body}`;
+  const issueUrl = `https://github.com/fables-tales/rubyfmt/issues/new?body=${body}&template=bug-report.md`;
   window.open(issueUrl, "_blank");
 }
 
