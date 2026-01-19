@@ -55,7 +55,8 @@ emcc \
     -Oz
 
 echo "Optimizing WASM binary with wasm-opt..."
-wasm-opt -Oz --all-features --strip-debug -o web/wasm/rubyfmt_opt.wasm web/wasm/rubyfmt.wasm
+# Use wasm-opt from Emscripten SDK
+"$EMSDK_DIR/upstream/bin/wasm-opt" -Oz --all-features --strip-debug -o web/wasm/rubyfmt_opt.wasm web/wasm/rubyfmt.wasm
 mv web/wasm/rubyfmt_opt.wasm web/wasm/rubyfmt.wasm
 
 echo "Extracting rubyfmt version info..."
