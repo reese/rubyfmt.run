@@ -253,11 +253,12 @@ function runFormat() {
       },
     });
     errorDisplay.classList.add("hidden");
-    updateURL(source);
   } catch (e) {
     errorDisplay.textContent = e.message || String(e);
     errorDisplay.classList.remove("hidden");
   }
+
+  updateURL(source);
 }
 
 function updateURL(source) {
