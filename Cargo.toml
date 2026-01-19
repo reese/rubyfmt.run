@@ -12,3 +12,5 @@ rubyfmt = { git = "https://github.com/fables-tales/rubyfmt", rev = "5290e84a5db5
 [profile.release]
 opt-level = 'z'
 lto = true
+codegen-units = 1
+strip = true

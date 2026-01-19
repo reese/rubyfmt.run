@@ -52,7 +52,11 @@ emcc \
     -s EXPORTED_RUNTIME_METHODS='["ccall", "cwrap", "UTF8ToString", "stringToUTF8", "lengthBytesUTF8"]' \
     -s ALLOW_MEMORY_GROWTH=1 \
     -s ENVIRONMENT='web' \
-    -O3
+    -Oz
+
+echo "Optimizing WASM binary with wasm-opt..."
+wasm-opt -Oz --all-features --strip-debug -o web/wasm/rubyfmt_opt.wasm web/wasm/rubyfmt.wasm
+mv web/wasm/rubyfmt_opt.wasm web/wasm/rubyfmt.wasm
 
 echo "Extracting rubyfmt version info..."
 RUBYFMT_VERSION=$(grep -A2 'name = "rubyfmt"' Cargo.lock | grep 'version' | sed 's/.*"\(.*\)"/\1/')
