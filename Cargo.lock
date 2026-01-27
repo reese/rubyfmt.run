@@ -287,7 +287,7 @@ dependencies = [
 [[package]]
 name = "rubyfmt"
 version = "0.12.0"
-source = "git+https://github.com/fables-tales/rubyfmt?rev=2fd2b91dcfed689d677880683a540bcdd380cdf8#2fd2b91dcfed689d677880683a540bcdd380cdf8"
+source = "git+https://github.com/fables-tales/rubyfmt?rev=cadd3d90081d37efbb7ffbc60cdda371624e1cf2#cadd3d90081d37efbb7ffbc60cdda371624e1cf2"
 dependencies = [
  "fancy-regex",
  "log",
