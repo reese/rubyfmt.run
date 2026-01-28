@@ -265,9 +265,9 @@ checksum = "7a2d987857b319362043e95f5353c0535c1f58eec5336fdfcf626430af7def58"
 
 [[package]]
 name = "ruby-prism"
-version = "1.8.0"
+version = "1.9.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5c950685ad401193788a593f2d7be6d2cb16ec722cbc1aa6c85f16375e59b2db"
+checksum = "3b302f00359d0b5423a600314935ca5f994484e15da2db5345631d28c6e029d6"
 dependencies = [
  "ruby-prism-sys",
  "serde",
@@ -276,9 +276,9 @@ dependencies = [
 
 [[package]]
 name = "ruby-prism-sys"
-version = "1.8.0"
+version = "1.9.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "de44d9a3c0456612160a31294485b2acaf6ffeb49e165c7a0bf4a70655c20b1b"
+checksum = "9f85fd9571455bdca2b3bf0b2f543cd13ac39d5de0026a8eb2deb94ffd264f00"
 dependencies = [
  "bindgen",
  "cc",
@@ -287,7 +287,7 @@ dependencies = [
 [[package]]
 name = "rubyfmt"
 version = "0.12.0"
-source = "git+https://github.com/fables-tales/rubyfmt?rev=cadd3d90081d37efbb7ffbc60cdda371624e1cf2#cadd3d90081d37efbb7ffbc60cdda371624e1cf2"
+source = "git+https://github.com/fables-tales/rubyfmt?rev=e9b202ad7e78528c5d9a49990dea4e2168c4c40b#e9b202ad7e78528c5d9a49990dea4e2168c4c40b"
 dependencies = [
  "fancy-regex",
  "log",
