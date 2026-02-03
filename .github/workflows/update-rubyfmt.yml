@@ -2,7 +2,7 @@ name: Update rubyfmt dependency
 
 on:
   schedule:
-    - cron: "0 * * * *" # Once an hour
+    - cron: "0 0 * * 0" # Once a week
   workflow_dispatch:
 
 jobs:
