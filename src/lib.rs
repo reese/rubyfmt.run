@@ -13,12 +13,7 @@ pub unsafe extern "C" fn format(source: *const c_char) -> *mut c_char {
         return std::ptr::null_mut();
     }
 
-    let source_str = unsafe {
-        match CStr::from_ptr(source).to_str() {
-            Ok(s) => s,
-            Err(_) => return std::ptr::null_mut(),
-        }
-    };
+    let source_str = unsafe { CStr::from_ptr(source).to_bytes() };
 
     match rubyfmt::format_buffer(source_str) {
         Ok(formatted) => match CString::new(formatted) {
