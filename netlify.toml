@@ -3,7 +3,7 @@
   publish = "web/dist"
 
 [build.environment]
-  NODE_VERSION = "20"
+  NODE_VERSION = "24"
   # Netlify auto-detects Rust from rust-toolchain.toml
 
 # Headers for WASM files
