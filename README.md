@@ -5,7 +5,7 @@ A web-based playground that runs [rubyfmt](https://github.com/fables-tales/rubyf
 ## Prerequisites
 
 - Rust
-- Node.js (v18+)
+- Node.js (v24+)
 - Git (for cloning the Emscripten SDK)
 
 The build script will automatically install:
