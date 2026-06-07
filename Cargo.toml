@@ -7,7 +7,7 @@ edition = "2024"
 crate-type = ["staticlib"]
 
 [dependencies]
-rubyfmt = { git = "https://github.com/fables-tales/rubyfmt", rev = "52fae76dc71766b6044699628510d8c17dc9feb7", default-features = false }
+rubyfmt = { git = "https://github.com/fables-tales/rubyfmt", rev = "b2a11b66ef187daf0406ce04747346289b8c57e7", default-features = false }
 
 [profile.release]
 opt-level = 'z'
