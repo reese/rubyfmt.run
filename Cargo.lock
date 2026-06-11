@@ -261,7 +261,7 @@ dependencies = [
 [[package]]
 name = "rubyfmt"
 version = "0.14.1"
-source = "git+https://github.com/fables-tales/rubyfmt?rev=5e478d5a7de5307b8e51ad8de4e9d3f4a266a871#5e478d5a7de5307b8e51ad8de4e9d3f4a266a871"
+source = "git+https://github.com/fables-tales/rubyfmt?rev=d3d433caffa02446a295f60fd8b727099bebbb97#d3d433caffa02446a295f60fd8b727099bebbb97"
 dependencies = [
  "log",
  "memchr",
