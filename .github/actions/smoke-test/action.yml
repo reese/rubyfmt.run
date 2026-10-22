@@ -1,0 +1,33 @@
+name: Smoke test
+description: Build the WASM playground and verify it loads in Chromium and WebKit
+
+runs:
+  using: composite
+  steps:
+    - uses: dtolnay/rust-toolchain@stable
+      with:
+        targets: wasm32-unknown-emscripten
+    - uses: Swatinem/rust-cache@v2
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 24
+    - name: Get Emscripten cache key
+      id: emsdk-cache
+      shell: bash
+      run: echo "week=$(date +%Y-%W)" >> "$GITHUB_OUTPUT"
+    - name: Restore Emscripten SDK
+      uses: actions/cache@v4
+      with:
+        path: emsdk
+        key: emsdk-${{ runner.os }}-${{ steps.emsdk-cache.outputs.week }}
+    - name: Build WASM and web assets
+      shell: bash
+      run: ./build.sh
+    - name: Install Playwright browsers
+      shell: bash
+      working-directory: web
+      run: npx playwright install --with-deps chromium webkit
+    - name: Run browser smoke test
+      shell: bash
+      working-directory: web
+      run: npm run test:e2e
