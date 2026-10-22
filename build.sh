@@ -55,8 +55,23 @@ emcc \
     -Oz
 
 echo "Optimizing WASM binary with wasm-opt..."
-# Use wasm-opt from Emscripten SDK
-"$EMSDK_DIR/upstream/bin/wasm-opt" -Oz --all-features --strip-debug -o web/wasm/rubyfmt_opt.wasm web/wasm/rubyfmt.wasm
+# Use wasm-opt from Emscripten SDK.
+#
+# Do NOT use --all-features here: it enables experimental proposals such as
+# compact imports, which emits an import section that Chrome and Safari cannot
+# parse (WebAssembly.Module doesn't parse ... can't get 0th Import's kind).
+# Enable only the features Rust/Emscripten actually target.
+WASM_OPT_FEATURES=(
+    --enable-bulk-memory
+    --enable-bulk-memory-opt
+    --enable-exception-handling
+    --enable-mutable-globals
+    --enable-multivalue
+    --enable-nontrapping-float-to-int
+    --enable-reference-types
+    --enable-sign-ext
+)
+"$EMSDK_DIR/upstream/bin/wasm-opt" -Oz "${WASM_OPT_FEATURES[@]}" --strip-debug -o web/wasm/rubyfmt_opt.wasm web/wasm/rubyfmt.wasm
 mv web/wasm/rubyfmt_opt.wasm web/wasm/rubyfmt.wasm
 
 echo "Extracting rubyfmt version info..."
