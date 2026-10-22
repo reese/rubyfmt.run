@@ -30,3 +30,32 @@ jobs:
           components: clippy
       - uses: Swatinem/rust-cache@v2
       - run: cargo clippy -- -D warnings
+
+  smoke:
+    name: Browser smoke test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-emscripten
+      - uses: Swatinem/rust-cache@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Get Emscripten cache key
+        id: emsdk-cache
+        run: echo "week=$(date +%Y-%W)" >> "$GITHUB_OUTPUT"
+      - name: Restore Emscripten SDK
+        uses: actions/cache@v4
+        with:
+          path: emsdk
+          key: emsdk-${{ runner.os }}-${{ steps.emsdk-cache.outputs.week }}
+      - name: Build WASM and web assets
+        run: ./build.sh
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium webkit
+        working-directory: web
+      - name: Run browser smoke test
+        run: npm run test:e2e
+        working-directory: web

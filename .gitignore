@@ -12,6 +12,10 @@ web/dist
 web/wasm
 web/version.json
 
+# Browser test output
+web/playwright-report
+web/test-results
+
 # IDE
 .idea
 .vscode
