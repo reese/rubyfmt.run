@@ -26,7 +26,7 @@ runs:
     - name: Install Playwright browsers
       shell: bash
       working-directory: web
-      run: npx playwright install --with-deps chromium webkit
+      run: npx playwright install --with-deps chromium firefox webkit
     - name: Run browser smoke test
       shell: bash
       working-directory: web
