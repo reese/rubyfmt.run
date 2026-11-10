@@ -114,7 +114,7 @@ dependencies = [
 [[package]]
 name = "rubyfmt"
 version = "0.14.1"
-source = "git+https://github.com/fables-tales/rubyfmt?rev=7c6ddaa73ed5c73f9431eb72e27e40070b095f47#7c6ddaa73ed5c73f9431eb72e27e40070b095f47"
+source = "git+https://github.com/fables-tales/rubyfmt?rev=eb5363ac922214bd79b1e4d146b1bd2097f3e168#eb5363ac922214bd79b1e4d146b1bd2097f3e168"
 dependencies = [
  "log",
  "ruby-prism",
